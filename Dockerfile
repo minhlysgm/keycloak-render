@@ -1,16 +1,18 @@
 FROM quay.io/keycloak/keycloak:26.4.5
 
 # Environment variables
-ENV KEYCLOAK_ADMIN=admin
-ENV KEYCLOAK_ADMIN_PASSWORD=admin123
-ENV KC_HOSTNAME_STRICT=false
-ENV KC_PROXY=edge
-ENV KC_HTTP_ENABLED=true
-ENV KC_HTTP_PORT=8080
+ENV KC_BOOTSTRAP_ADMIN_USERNAME=admin \
+    KC_BOOTSTRAP_ADMIN_PASSWORD=admin \
+    KC_HOSTNAME_STRICT=false \
+    KC_PROXY=edge \
+    KC_HTTP_ENABLED=true \
+    KC_HEALTH_ENABLED=true \
+    KC_HTTP_HOST=0.0.0.0 \
+    KC_HTTP_PORT=8080
 
-# Expose port
+# Expose port (Render auto-detects this)
 EXPOSE 8080
 
-# Start Keycloak
+# Start command
 ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]
-CMD ["start-dev", "--http-enabled=true", "--http-host=0.0.0.0", "--http-port=8080", "--hostname-strict=false", "--proxy-headers=xforwarded"]
+CMD ["start-dev"]
